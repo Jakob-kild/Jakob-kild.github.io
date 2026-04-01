@@ -1,86 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Data Visualization Site</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-      line-height: 1.6;
-    }
-
-    h1, h2 {
-      color: #222;
-    }
-
-    .viz-section {
-      margin-bottom: 50px;
-    }
-
-    img {
-      max-width: 100%;
-      height: auto;
-      border: 1px solid #ccc;
-    }
-
-    iframe {
-      width: 100%;
-      height: 600px;
-      border: 1px solid #ccc;
-    }
-
-    .links a {
-      display: inline-block;
-      margin-top: 10px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>San Francisco Crime Patterns — A Scrollytelling Story</title>
+  <meta name="description" content="A scrolling story about San Francisco crime data using Matplotlib, Plotly, and Folium visualizations." />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>San Francisco Crime Visualizations</h1>
-  <p>
-    This website presents visualizations created from my course notebooks.
-    It includes one static Matplotlib figure, one interactive Plotly chart,
-    and one interactive Folium map.
-  </p>
-
-  <div class="viz-section">
-    <h2>1. Static chart: SF Police Incidents per Year</h2>
-    <p>
-      This Matplotlib figure shows how the total number of incidents changes across years.
-    </p>
-    <img src="images/sf_incidents_per_year.png" alt="SF Police Incidents per Year">
-  </div>
-
-  <div class="viz-section">
-    <h2>2. Interactive Plotly chart: Animated hourly crime patterns</h2>
-    <p>
-      This Plotly visualization lets the user inspect hourly crime patterns by year.
-      You can hover, zoom, and use the animation controls.
-    </p>
-    <iframe src="visualizations/animated_hourly_crime.html"></iframe>
-    <div class="links">
-      <a href="visualizations/animated_hourly_crime.html" target="_blank">
-        Open Plotly chart in full page
-      </a>
+  <header class="topbar">
+    <div class="nav-inner">
+      <a class="brand" href="#top">SF Crime Story</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#overview">Overview</a>
+        <a href="#years">Across years</a>
+        <a href="#hours">Across hours</a>
+        <a href="#space">Across space</a>
+        <a href="#takeaways">Takeaways</a>
+      </nav>
+      <button class="toggle-btn" id="themeToggle" aria-label="Toggle dark mode">🌙 Dark mode</button>
     </div>
-  </div>
+  </header>
 
-  <div class="viz-section">
-    <h2>3. Interactive Folium map: Crime heatmap</h2>
-    <p>
-      This Folium map shows the spatial distribution of incidents across San Francisco.
-      You can pan and zoom the map.
-    </p>
-    <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
-    <div class="links">
-      <a href="visualizations/sf_crime_heatmap.html" target="_blank">
-        Open Folium map in full page
-      </a>
+  <section class="hero" id="top">
+    <div class="hero-card">
+      <div>
+        <span class="eyebrow">Data storytelling · San Francisco</span>
+        <h1>How do crime patterns change across <span style="color: var(--accent);">years</span>, <span style="color: var(--accent-2);">hours</span>, and <span style="color: var(--accent);">places</span>?</h1>
+        <p class="lead">
+          This page turns course visualizations into a scrolling story. Instead of showing charts as separate homework outputs,
+          it asks one broader question: what changes when we look at the same city through time, routine, and geography?
+        </p>
+        <div class="hero-actions">
+          <a class="hero-cta" href="#years">Start the story ↓</a>
+          <a class="hero-cta" href="visualizations/animated_hourly_crime.html" target="_blank" rel="noopener">Open Plotly fullscreen</a>
+          <a class="hero-cta" href="visualizations/sf_crime_heatmap.html" target="_blank" rel="noopener">Open map fullscreen</a>
+        </div>
+      </div>
+      <aside class="hero-panel">
+        <h3>What this story uses</h3>
+        <div class="pill-row">
+          <span class="pill">Matplotlib</span>
+          <span class="pill">Plotly</span>
+          <span class="pill">Folium</span>
+          <span class="pill">Responsive layout</span>
+          <span class="pill">Sticky navigation</span>
+          <span class="pill">Dark mode</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat">
+            <strong>1</strong>
+            Static figure showing yearly totals.
+          </div>
+          <div class="stat">
+            <strong>1</strong>
+            Interactive Plotly chart with hover and animation.
+          </div>
+          <div class="stat">
+            <strong>1</strong>
+            Interactive Folium heatmap of spatial intensity.
+          </div>
+          <div class="stat">
+            <strong>3</strong>
+            Lenses on the same dataset: time, behavior, and place.
+          </div>
+        </div>
+      </aside>
     </div>
-  </div>
+  </section>
+
+  <main>
+    <section class="section" id="overview">
+      <h2>From course exercises to a single narrative</h2>
+      <p class="lead">
+        In the notebooks, the visualizations were created in separate weeks and for different technical goals. On this page, they work together.
+        The bar chart provides scale, the hourly Plotly view shows behavioral rhythm, and the map anchors those patterns in physical space.
+      </p>
+    </section>
+
+    <section class="section" id="years">
+      <div class="section-grid">
+        <article class="story-card">
+          <span class="eyebrow">Chapter 1</span>
+          <h2>The city-level view</h2>
+          <p>
+            The first question is simple: how many incidents are recorded each year? This static Matplotlib figure summarizes the full dataset at the broadest level.
+            It is the most compact view on the page, but also the one that sets the stakes for everything that follows.
+          </p>
+          <ul class="bullet-list">
+            <li>The chart shows complete-year incident totals for San Francisco.</li>
+            <li>It establishes long-run variation before we zoom into specific types or moments of the day.</li>
+            <li>It works as a baseline: later charts explain how that overall volume is distributed.</li>
+          </ul>
+          <div class="quote">
+            The yearly view answers <em>how much</em>. The rest of the page explains <em>when</em> and <em>where</em> those incidents take shape.
+          </div>
+        </article>
+
+        <div class="viz-stack">
+          <div class="viz-frame">
+            <img src="images/sf_incidents_per_year.png" alt="SF Police incidents per year" />
+            <p class="caption">
+              Static Matplotlib export from the course notebook: a broad overview of incident volume across complete years.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="hours">
+      <div class="section-grid">
+        <article class="story-card">
+          <span class="eyebrow">Chapter 2</span>
+          <h2>Crime has a daily rhythm</h2>
+          <p>
+            Totals flatten the lived texture of the city. The animated Plotly chart brings that texture back by comparing normalized hourly distributions for selected focus crimes.
+            Each year becomes a frame, and each crime type leaves behind a different shape over the 24-hour day.
+          </p>
+          <ul class="bullet-list">
+            <li>Because the counts are normalized, the chart emphasizes <strong>shape</strong> rather than raw volume.</li>
+            <li>This makes it easier to compare behavioral timing across crime categories.</li>
+            <li>The animation also reveals whether those hourly patterns remain stable or drift from year to year.</li>
+          </ul>
+          <p>
+            In other words, the question changes from “How much crime is there?” to “What kinds of activity cluster at what time?”
+          </p>
+        </article>
+
+        <div class="viz-stack">
+          <div class="viz-frame">
+            <iframe src="visualizations/animated_hourly_crime.html" title="Animated hourly crime patterns"></iframe>
+            <p class="caption">
+              Interactive Plotly chart: hover for values, toggle categories in the legend, zoom into specific time ranges, and play the year-by-year animation.
+            </p>
+            <a class="inline-link" href="visualizations/animated_hourly_crime.html" target="_blank" rel="noopener">Open this chart on its own →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="space">
+      <div class="section-grid">
+        <article class="story-card">
+          <span class="eyebrow">Chapter 3</span>
+          <h2>Patterns become places</h2>
+          <p>
+            Temporal structure is only part of the story. The Folium heatmap translates the dataset into urban space, showing where incidents concentrate across San Francisco.
+            Compared with district-level choropleths, this view feels more immediate because it is built directly from raw latitude and longitude coordinates.
+          </p>
+          <ul class="bullet-list">
+            <li>The heatmap highlights concentration rather than administrative boundaries.</li>
+            <li>Pan and zoom reveal how intensity changes at different map scales.</li>
+            <li>Together with the yearly and hourly views, it connects aggregate patterns to real neighborhoods and corridors.</li>
+          </ul>
+          <div class="quote">
+            Once the map appears, the data stops feeling abstract. The city becomes visible as a set of hotspots, gaps, and repeated spatial routines.
+          </div>
+        </article>
+
+        <div class="viz-stack">
+          <div class="viz-frame">
+            <iframe src="visualizations/sf_crime_heatmap.html" title="San Francisco crime heatmap"></iframe>
+            <p class="caption">
+              Interactive Folium map: drag, zoom, and inspect the changing intensity of incidents across the city.
+            </p>
+            <a class="inline-link" href="visualizations/sf_crime_heatmap.html" target="_blank" rel="noopener">Open this map on its own →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="takeaways">
+      <h2>What the three views say together</h2>
+      <div class="viz-stack">
+        <div class="viz-frame">
+          <h3>A compact reading of the data</h3>
+          <ul class="bullet-list">
+            <li><strong>Across years:</strong> incident volume changes over time, giving the dataset a long-run structure.</li>
+            <li><strong>Across hours:</strong> crime categories do not follow one universal daily schedule; their peaks and lulls differ.</li>
+            <li><strong>Across space:</strong> incidents are unevenly distributed, clustering in specific parts of the city.</li>
+          </ul>
+          <p class="caption">
+            The storytelling goal is not just to host three visualizations, but to let each one answer a different layer of the same question.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>
+        Built from course notebooks using exported Matplotlib, Plotly, and Folium outputs. Designed as a modern GitHub Pages scrollytelling page with responsive layout, sticky navigation, dark mode, and subtle motion.
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    const body = document.body;
+    const toggleBtn = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('sf-crime-theme');
+
+    if (savedTheme === 'light') {
+      body.classList.add('light');
+      toggleBtn.textContent = '☀️ Light mode';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('light');
+      const isLight = body.classList.contains('light');
+      toggleBtn.textContent = isLight ? '☀️ Light mode' : '🌙 Dark mode';
+      localStorage.setItem('sf-crime-theme', isLight ? 'light' : 'dark');
+    });
+  </script>
 </body>
 </html>
