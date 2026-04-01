@@ -1,10 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Data Viz Site</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Data Visualization Site</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    h1, h2 {
+      color: #222;
+    }
+
+    .viz-section {
+      margin-bottom: 50px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+    }
+
+    iframe {
+      width: 100%;
+      height: 600px;
+      border: 1px solid #ccc;
+    }
+
+    .links a {
+      display: inline-block;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Hello World!</h1>
-    <p>This site will soon contain interactive data visualizations about crime in San Francisco.</p>
+  <h1>San Francisco Crime Visualizations</h1>
+  <p>
+    This website presents visualizations created from my course notebooks.
+    It includes one static Matplotlib figure, one interactive Plotly chart,
+    and one interactive Folium map.
+  </p>
+
+  <div class="viz-section">
+    <h2>1. Static chart: SF Police Incidents per Year</h2>
+    <p>
+      This Matplotlib figure shows how the total number of incidents changes across years.
+    </p>
+    <img src="images/sf_incidents_per_year.png" alt="SF Police Incidents per Year">
+  </div>
+
+  <div class="viz-section">
+    <h2>2. Interactive Plotly chart: Animated hourly crime patterns</h2>
+    <p>
+      This Plotly visualization lets the user inspect hourly crime patterns by year.
+      You can hover, zoom, and use the animation controls.
+    </p>
+    <iframe src="visualizations/animated_hourly_crime.html"></iframe>
+    <div class="links">
+      <a href="visualizations/animated_hourly_crime.html" target="_blank">
+        Open Plotly chart in full page
+      </a>
+    </div>
+  </div>
+
+  <div class="viz-section">
+    <h2>3. Interactive Folium map: Crime heatmap</h2>
+    <p>
+      This Folium map shows the spatial distribution of incidents across San Francisco.
+      You can pan and zoom the map.
+    </p>
+    <iframe src="visualizations/sf_crime_heatmap.html"></iframe>
+    <div class="links">
+      <a href="visualizations/sf_crime_heatmap.html" target="_blank">
+        Open Folium map in full page
+      </a>
+    </div>
+  </div>
 </body>
 </html>
