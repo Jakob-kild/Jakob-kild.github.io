@@ -3,213 +3,221 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>San Francisco Crime Patterns — A Scrollytelling Story</title>
-  <meta name="description" content="A scrolling story about San Francisco crime data using Matplotlib, Plotly, and Folium visualizations." />
+  <title>COVID Impact on San Francisco Crime Rates</title>
+  <meta
+    name="description"
+    content="A short scrollytelling data story on how the COVID period reshaped crime patterns in San Francisco."
+  />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="nav-inner">
-      <a class="brand" href="#top">SF Crime Story</a>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#overview">Overview</a>
-        <a href="#years">Across years</a>
-        <a href="#hours">Across hours</a>
-        <a href="#space">Across space</a>
-        <a href="#takeaways">Takeaways</a>
-      </nav>
-      <button class="toggle-btn" id="themeToggle" aria-label="Toggle dark mode">🌙 Dark mode</button>
+  <div class="page-bg"></div>
+
+  <header class="hero">
+    <nav class="topbar">
+      <div class="brand">Assignment 2 · Data Story</div>
+      <a class="toplink" href="#story">Read story</a>
+    </nav>
+
+    <div class="hero-inner">
+      <p class="eyebrow reveal">San Francisco police incident data, 2003–2025</p>
+      <h1 class="reveal delay-1">COVID impact on San Francisco crime rates</h1>
+      <p class="hero-dek reveal delay-2">
+        The pandemic did not move every crime category in the same direction.
+        Some recorded crimes rose during the COVID period, while others fell,
+        revealing a city whose patterns shifted both by category and by place.
+      </p>
+      <div class="hero-meta reveal delay-3">
+        <span>Three visualizations</span>
+        <span>Author-led narrative</span>
+        <span>Dark mode design</span>
+      </div>
     </div>
   </header>
 
-  <section class="hero" id="top">
-    <div class="hero-card">
-      <div>
-        <span class="eyebrow">Data storytelling · San Francisco</span>
-        <h1>How do crime patterns change across <span style="color: var(--accent);">years</span>, <span style="color: var(--accent-2);">hours</span>, and <span style="color: var(--accent);">places</span>?</h1>
-        <p class="lead">
-          This page turns course visualizations into a scrolling story. Instead of showing charts as separate homework outputs,
-          it asks one broader question: what changes when we look at the same city through time, routine, and geography?
-        </p>
-        <div class="hero-actions">
-          <a class="hero-cta" href="#years">Start the story ↓</a>
-          <a class="hero-cta" href="visualizations/animated_hourly_crime.html" target="_blank" rel="noopener">Open Plotly fullscreen</a>
-          <a class="hero-cta" href="visualizations/sf_crime_heatmap.html" target="_blank" rel="noopener">Open map fullscreen</a>
-        </div>
-      </div>
-      <aside class="hero-panel">
-        <h3>What this story uses</h3>
-        <div class="pill-row">
-          <span class="pill">Matplotlib</span>
-          <span class="pill">Plotly</span>
-          <span class="pill">Folium</span>
-          <span class="pill">Responsive layout</span>
-          <span class="pill">Sticky navigation</span>
-          <span class="pill">Dark mode</span>
-        </div>
-        <div class="stat-grid">
-          <div class="stat">
-            <strong>1</strong>
-            Static figure showing yearly totals.
-          </div>
-          <div class="stat">
-            <strong>1</strong>
-            Interactive Plotly chart with hover and animation.
-          </div>
-          <div class="stat">
-            <strong>1</strong>
-            Interactive Folium heatmap of spatial intensity.
-          </div>
-          <div class="stat">
-            <strong>3</strong>
-            Lenses on the same dataset: time, behavior, and place.
-          </div>
-        </div>
-      </aside>
-    </div>
-  </section>
-
-  <main>
-    <section class="section" id="overview">
-      <h2>From course exercises to a single narrative</h2>
-      <p class="lead">
-        In the notebooks, the visualizations were created in separate weeks and for different technical goals. On this page, they work together.
-        The bar chart provides scale, the hourly Plotly view shows behavioral rhythm, and the map anchors those patterns in physical space.
-      </p>
-    </section>
-
-    <section class="section" id="years">
-      <div class="section-grid">
-        <article class="story-card">
-          <span class="eyebrow">Chapter 1</span>
-          <h2>The city-level view</h2>
-          <p>
-            The first question is simple: how many incidents are recorded each year? This static Matplotlib figure summarizes the full dataset at the broadest level.
-            It is the most compact view on the page, but also the one that sets the stakes for everything that follows.
-          </p>
-          <ul class="bullet-list">
-            <li>The chart shows complete-year incident totals for San Francisco.</li>
-            <li>It establishes long-run variation before we zoom into specific types or moments of the day.</li>
-            <li>It works as a baseline: later charts explain how that overall volume is distributed.</li>
-          </ul>
-          <div class="quote">
-            The yearly view answers <em>how much</em>. The rest of the page explains <em>when</em> and <em>where</em> those incidents take shape.
-          </div>
-        </article>
-
-        <div class="viz-stack">
-          <div class="viz-frame">
-            <img src="images/sf_incidents_per_year.png" alt="SF Police incidents per year" />
-            <p class="caption">
-              Static Matplotlib export from the course notebook: a broad overview of incident volume across complete years.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="hours">
-      <div class="section-grid">
-        <article class="story-card">
-          <span class="eyebrow">Chapter 2</span>
-          <h2>Crime has a daily rhythm</h2>
-          <p>
-            Totals flatten the lived texture of the city. The animated Plotly chart brings that texture back by comparing normalized hourly distributions for selected focus crimes.
-            Each year becomes a frame, and each crime type leaves behind a different shape over the 24-hour day.
-          </p>
-          <ul class="bullet-list">
-            <li>Because the counts are normalized, the chart emphasizes <strong>shape</strong> rather than raw volume.</li>
-            <li>This makes it easier to compare behavioral timing across crime categories.</li>
-            <li>The animation also reveals whether those hourly patterns remain stable or drift from year to year.</li>
-          </ul>
-          <p>
-            In other words, the question changes from “How much crime is there?” to “What kinds of activity cluster at what time?”
-          </p>
-        </article>
-
-        <div class="viz-stack">
-          <div class="viz-frame">
-            <iframe src="visualizations/animated_hourly_crime.html" title="Animated hourly crime patterns"></iframe>
-            <p class="caption">
-              Interactive Plotly chart: hover for values, toggle categories in the legend, zoom into specific time ranges, and play the year-by-year animation.
-            </p>
-            <a class="inline-link" href="visualizations/animated_hourly_crime.html" target="_blank" rel="noopener">Open this chart on its own →</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="space">
-      <div class="section-grid">
-        <article class="story-card">
-          <span class="eyebrow">Chapter 3</span>
-          <h2>Patterns become places</h2>
-          <p>
-            Temporal structure is only part of the story. The Folium heatmap translates the dataset into urban space, showing where incidents concentrate across San Francisco.
-            Compared with district-level choropleths, this view feels more immediate because it is built directly from raw latitude and longitude coordinates.
-          </p>
-          <ul class="bullet-list">
-            <li>The heatmap highlights concentration rather than administrative boundaries.</li>
-            <li>Pan and zoom reveal how intensity changes at different map scales.</li>
-            <li>Together with the yearly and hourly views, it connects aggregate patterns to real neighborhoods and corridors.</li>
-          </ul>
-          <div class="quote">
-            Once the map appears, the data stops feeling abstract. The city becomes visible as a set of hotspots, gaps, and repeated spatial routines.
-          </div>
-        </article>
-
-        <div class="viz-stack">
-          <div class="viz-frame">
-            <iframe src="visualizations/sf_crime_heatmap.html" title="San Francisco crime heatmap"></iframe>
-            <p class="caption">
-              Interactive Folium map: drag, zoom, and inspect the changing intensity of incidents across the city.
-            </p>
-            <a class="inline-link" href="visualizations/sf_crime_heatmap.html" target="_blank" rel="noopener">Open this map on its own →</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="takeaways">
-      <h2>What the three views say together</h2>
-      <div class="viz-stack">
-        <div class="viz-frame">
-          <h3>A compact reading of the data</h3>
-          <ul class="bullet-list">
-            <li><strong>Across years:</strong> incident volume changes over time, giving the dataset a long-run structure.</li>
-            <li><strong>Across hours:</strong> crime categories do not follow one universal daily schedule; their peaks and lulls differ.</li>
-            <li><strong>Across space:</strong> incidents are unevenly distributed, clustering in specific parts of the city.</li>
-          </ul>
-          <p class="caption">
-            The storytelling goal is not just to host three visualizations, but to let each one answer a different layer of the same question.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
+  <main id="story" class="story-shell">
+    <section class="story-block text-only reveal">
+      <div class="section-tag">Introduction</div>
+      <h2>What this data can show — and what it cannot</h2>
       <p>
-        Built from course notebooks using exported Matplotlib, Plotly, and Folium outputs. Designed as a modern GitHub Pages scrollytelling page with responsive layout, sticky navigation, dark mode, and subtle motion.
+        This story uses San Francisco police incident records from the course dataset.
+        These records reflect incidents that were reported, observed, and logged by the police.
+        That means they are useful for studying changes in recorded crime patterns, but they do
+        not measure the total amount of harm or lawbreaking in the city directly.
       </p>
-    </footer>
+      <p>
+        That caution matters here. A rise in one category does not prove that behavior itself rose
+        for only one reason, and a decline does not necessarily mean the underlying problem disappeared.
+        Still, the dataset clearly shows that the COVID period was not a uniform shock.
+        Different categories moved in different directions.
+      </p>
+    </section>
+
+    <section class="story-block viz-section reveal">
+      <div class="section-tag">Figure 1</div>
+      <div class="text-col">
+        <h2>Not all crime categories changed the same way during COVID</h2>
+        <p>
+          The first chart sets up the main story. During the COVID period, recorded burglary
+          and motor vehicle theft rose relative to their immediately preceding levels, while
+          assault moved downward. Robbery followed a different path again.
+        </p>
+        <p>
+          The point is not that “crime went up” or “crime went down” in one simple way.
+          The point is that the pandemic period appears to have reshaped the city’s crime mix.
+          Any broad claim about total crime hides that divergence.
+        </p>
+      </div>
+
+      <figure class="viz-card static-card">
+        <img
+          src="visualizations/covid_crime_trends_static.png"
+          alt="Line chart showing yearly incidents for Burglary, Motor Vehicle Theft, Robbery, and Assault, with the COVID period shaded."
+        />
+        <figcaption>
+          <strong>Figure 1.</strong> Yearly recorded incidents for four crime categories in San Francisco.
+          The shaded region marks the COVID period. Burglary and motor vehicle theft rise during this window,
+          while assault declines. The figure shows why citywide totals alone can be misleading.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="story-block text-only reveal">
+      <div class="section-tag">Interpretation</div>
+      <h2>A pandemic shock can change incentives, movement, and opportunity</h2>
+      <p>
+        One plausible interpretation is that the COVID period changed everyday routines across the city:
+        where people traveled, how businesses operated, which spaces were left empty, and where economic stress
+        became most visible. Those shifts can change the opportunity structure for different kinds of incidents.
+      </p>
+      <p>
+        But the safest conclusion from this dataset is narrower. The records show that burglary and motor vehicle theft
+        were more resilient — or even elevated — during the COVID period compared with some other categories.
+        That is a statement about recorded patterns, not a complete explanation of cause.
+      </p>
+    </section>
+
+    <section class="story-block viz-section reveal">
+      <div class="section-tag">Figure 2</div>
+      <div class="text-col">
+        <h2>The burglary pattern also spread geographically</h2>
+        <p>
+          The second visualization narrows the focus to burglary. Before COVID, recorded burglary incidents were
+          concentrated in a more limited set of hotspots. During COVID, that concentration appears more spatially diffuse.
+        </p>
+        <p>
+          The map suggests that the pandemic-era shift was not only about more incidents in the same places.
+          It also changed where burglary pressure appeared across San Francisco.
+        </p>
+      </div>
+
+      <figure class="viz-card iframe-card tall">
+        <iframe
+          src="visualizations/burglary_heatmap_before_vs_during_covid.html"
+          title="Burglary heatmaps before and during COVID in San Francisco"
+          loading="lazy"
+        ></iframe>
+        <figcaption>
+          <strong>Figure 2.</strong> Heatmaps compare burglary incident concentration before COVID (2018–2019)
+          and during COVID (2020–2021). The during-COVID map shows a broader footprint, suggesting that the
+          burglary pattern became less tightly concentrated.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="story-block text-only reveal">
+      <div class="section-tag">Comparison</div>
+      <h2>Place mattered just as much as category</h2>
+      <p>
+        Once the city is broken into police districts, the COVID effect looks uneven. Some districts saw much larger
+        changes than others. That means the pandemic-era shift was not only categorical and not only citywide.
+        It was spatially uneven too.
+      </p>
+      <p>
+        This is where an interactive chart helps. Rather than asking the reader to decode every district from a static
+        figure, the last visualization lets you switch categories and inspect how before-COVID and during-COVID averages
+        compare district by district.
+      </p>
+    </section>
+
+    <section class="story-block viz-section reveal">
+      <div class="section-tag">Figure 3</div>
+      <div class="text-col">
+        <h2>District-level numbers confirm the uneven shift</h2>
+        <p>
+          The final chart moves from pattern to comparison. It shows average yearly incidents in each police district
+          before COVID and during COVID. The selector lets you switch between burglary, motor vehicle theft, robbery,
+          and assault.
+        </p>
+        <p>
+          Together with the first two figures, this makes the broader point concrete:
+          COVID did not affect all recorded crimes equally, and it did not affect all parts of the city equally either.
+        </p>
+      </div>
+
+      <figure class="viz-card iframe-card tall">
+        <iframe
+          src="visualizations/district_before_vs_during_selector.html"
+          title="Interactive district comparison of crime categories before and during COVID"
+          loading="lazy"
+        ></iframe>
+        <figcaption>
+          <strong>Figure 3.</strong> Interactive district comparison of average yearly incidents before COVID
+          (2018–2019) and during COVID (2020–2021). Switching categories shows that district-level change was uneven,
+          reinforcing that the pandemic-era shift was neither uniform nor citywide in one simple sense.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="story-block text-only reveal">
+      <div class="section-tag">Conclusion</div>
+      <h2>The main story is divergence</h2>
+      <p>
+        The clearest takeaway is not that COVID made crime rise or fall across the board.
+        It is that the period introduced divergence. Burglary and motor vehicle theft rose,
+        assault fell, and burglary’s geographic footprint appears to have widened.
+      </p>
+      <p>
+        That makes this a story about disruption rather than a single trend line.
+        The pandemic did not push every crime category in the same direction,
+        and it did not affect every part of San Francisco in the same way.
+      </p>
+    </section>
+
+    <section class="story-block notes reveal">
+      <div class="section-tag">Notes & references</div>
+      <h2>Method and caution</h2>
+      <p>
+        This page is intentionally linear and author-led, following the narrative visualization guidance from
+        Segel & Heer’s “magazine” style: text and graphics alternate to build one argument step by step rather
+        than inviting unconstrained exploration. :contentReference[oaicite:1]{index=1}
+      </p>
+      <p>
+        The visual evidence here supports claims about <em>recorded incidents</em>, not direct causal claims about
+        underlying behavior. Reporting practices, policing, and classification choices can also affect these patterns.
+      </p>
+
+      <ul class="ref-list">
+        <li>Course dataset: San Francisco police incident records, 2003–2025.</li>
+        <li>Segel, E. & Heer, J. <em>Narrative Visualization: Telling Stories with Data</em>. :contentReference[oaicite:2]{index=2}</li>
+      </ul>
+    </section>
   </main>
 
+  <footer class="site-footer">
+    <p>Made for GitHub Pages · Dark-mode scrollytelling layout · Three-figure narrative</p>
+  </footer>
+
   <script>
-    const body = document.body;
-    const toggleBtn = document.getElementById('themeToggle');
-    const savedTheme = localStorage.getItem('sf-crime-theme');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.16 });
 
-    if (savedTheme === 'light') {
-      body.classList.add('light');
-      toggleBtn.textContent = '☀️ Light mode';
-    }
-
-    toggleBtn.addEventListener('click', () => {
-      body.classList.toggle('light');
-      const isLight = body.classList.contains('light');
-      toggleBtn.textContent = isLight ? '☀️ Light mode' : '🌙 Dark mode';
-      localStorage.setItem('sf-crime-theme', isLight ? 'light' : 'dark');
-    });
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
   </script>
 </body>
 </html>
