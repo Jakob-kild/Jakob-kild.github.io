@@ -4,35 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>COVID Impact on San Francisco Crime Rates</title>
-  <meta
-    name="description"
-    content="A short scrollytelling data story about how the COVID period reshaped recorded crime patterns in San Francisco."
-  />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
   <div class="page-bg"></div>
-
   <header class="hero">
     <nav class="topbar">
-      <div class="brand">Assignment 2 · A Short Data Story</div>
-      <a class="toplink" href="#story">Read story</a>
+      <div class="brand">Assignment 2 - A Short Data Story</div>
     </nav>
-
     <div class="hero-inner">
-      <p class="eyebrow reveal">San Francisco police incident records · 2003–2025</p>
+      <p class="eyebrow reveal">Based on San Francisco police incident records during 2003-2025</p>
       <h1 class="reveal delay-1">COVID impact on San Francisco crime rates</h1>
       <p class="hero-dek reveal delay-2">
-        The pandemic did not reshape all recorded crimes in the same way.
-        Some categories, like burglary and motor vehicle theft, rose during the COVID period,
-        while others, like assault, fell. The result was not one simple citywide trend,
-        but a shift in both category mix and geography.
+        The COVID-19 pandemic did not have the same effect on all crime categories in San Fransisco. Some categories have their own stories to tell. This short data story shows the differences across 4 selected crime categories, burglary, motor vehicle theft, robbery, and assault. 
       </p>
-      <div class="hero-meta reveal delay-3">
-        <span>Three visualizations</span>
-        <span>Magazine-style narrative</span>
-        <span>Dark mode scrollytelling</span>
-      </div>
     </div>
   </header>
 
@@ -41,30 +26,27 @@
       <div class="section-tag">Introduction</div>
       <h2>Reading police incident data with care</h2>
       <p>
-        This story uses San Francisco police incident records from the course dataset.
-        These records describe incidents that were reported, observed, and logged by police.
-        That makes them useful for studying changes in <em>recorded</em> crime patterns,
-        but not for making simple claims about the total amount of crime or harm in the city.
+        This story uses the merged San Francisco police incident records from 2003 to 2025, created during the course.
       </p>
       <p>
-        That distinction matters for the pandemic years. A rise in one category does not, by itself,
+        It is important to note, that the rise in one category does not, by itself,
         prove one cause, and a drop in another does not mean the underlying problem disappeared.
         Still, the data clearly shows that COVID did not affect all recorded crime categories equally.
       </p>
     </section>
 
     <section class="story-block viz-section reveal">
-      <div class="section-tag">Figure 1</div>
+      <div class="section-tag">Trend Direction Discrepencies</div>
       <div class="text-col">
         <h2>Not all categories moved in the same direction during COVID</h2>
         <p>
           The first figure establishes the central claim. During the COVID period, burglary
-          and motor vehicle theft rose relative to the immediately preceding years, while assault declined.
-          Robbery followed a different path again.
+          and motor vehicle theft rose relative to the years jjust before, while assault declined.
+          And robbery appears no have stayed relatively consistant.
         </p>
         <p>
           This means that any single statement about “crime going up” or “crime going down”
-          hides an important pattern. The pandemic period appears to have changed the composition
+          doesnt capture the full picture. The pandemic appears to have changed the composition
           of recorded crime, not just the overall total.
         </p>
       </div>
@@ -76,9 +58,9 @@
         />
         <figcaption>
           <strong>Figure 1.</strong> Recorded yearly incidents for burglary, motor vehicle theft,
-          robbery, and assault in San Francisco. The shaded band marks the COVID period.
+          robbery, and assault in San Francisco. The shaded area marks the COVID period.
           Burglary and motor vehicle theft rise during this window, while assault declines,
-          showing that the pandemic did not affect all recorded crime categories equally.
+          showing that the pandemic did not affect all recorded crime categories the same.
         </figcaption>
       </figure>
     </section>
@@ -87,29 +69,24 @@
       <div class="section-tag">Interpretation</div>
       <h2>A disruption to routine life can reshape opportunity</h2>
       <p>
-        One plausible interpretation is that the pandemic changed everyday urban life:
-        movement patterns, business activity, empty streets, closed workplaces, and household stress.
-        Those disruptions may have changed the opportunity structure for different types of incidents.
-      </p>
-      <p>
-        But the safest claim stays close to the data. What the records show is that the COVID period
-        coincided with a divergence across crime categories. Some categories rose, some fell,
-        and that divergence is the main pattern this story follows.
+        One plausible interpretation, is that the pandemic changed everyday life in big cities.
+        Movement patterns, business activity, empty streets, closed workplaces, are all examples of routines that were greatly affected during the pandemic.
+        And at the same time, routines that greatly affect the oppurtunities for crime. Empty streets and closed businesses may have created more opportunities for burglary and motor vehicle theft, while fewer interactions in public spaces may have reduced assault.
       </p>
     </section>
 
     <section class="story-block viz-section reveal">
-      <div class="section-tag">Figure 2</div>
+      <div class="section-tag">Geographic Distribution</div>
       <div class="text-col">
-        <h2>Burglary also became less geographically concentrated</h2>
+        <h2>Burglary also became less concentrated geographically</h2>
         <p>
-          The second visualization narrows the story to burglary. Before COVID, burglary was more tightly
-          concentrated in a limited set of hotspots. During COVID, that concentration appears to spread across
-          a broader part of the city.
+          The second visualization focuses on burglary. Before COVID, burglary was more tightly
+          concentrated in fewer hotspots. During COVID, that concentration actually spreads across
+          a broader area of the city.
         </p>
         <p>
-          This suggests that the pandemic-era change was not only a matter of more incidents in the same places.
-          It also changed where burglary was recorded across San Francisco.
+          This suggests that the pandemic change was not just more burglary incidents in the same places.
+          It also changed where burglary was recorded throughout San Francisco.
         </p>
       </div>
 
@@ -121,7 +98,7 @@
         ></iframe>
         <figcaption>
           <strong>Figure 2.</strong> Heatmaps compare burglary incident concentration before COVID
-          (2018–2019) and during COVID (2020–2021). The during-COVID map shows a broader footprint,
+          (2018-2019) and during COVID (2020-2021). The during-COVID map shows a broader footprint,
           suggesting that burglary became less tightly concentrated geographically.
         </figcaption>
       </figure>
@@ -134,24 +111,15 @@
         Category-level change is only part of the picture. Once the city is broken into police districts,
         the COVID period looks uneven there as well. Some districts changed much more than others.
       </p>
-      <p>
-        That makes the pandemic-era shift both categorical and spatial. The final chart lets the reader
-        compare district-level averages before and during COVID for several categories directly.
-      </p>
     </section>
 
     <section class="story-block viz-section reveal">
-      <div class="section-tag">Figure 3</div>
+      <div class="section-tag">District Comparison</div>
       <div class="text-col">
-        <h2>District-level comparisons make the unevenness visible</h2>
+        <h2>District comparisons show big differences</h2>
         <p>
           The final visualization compares average yearly incidents in each police district before COVID
-          and during COVID. The selector lets you switch between burglary, motor vehicle theft, robbery,
-          and assault.
-        </p>
-        <p>
-          Together, the three figures tell one story: COVID did not push all recorded crime in one direction.
-          It changed the balance among categories, widened burglary’s spatial footprint, and affected districts unevenly.
+          and during COVID. You can switch between burglary, motor vehicle theft, robbery, and assault, using the selector on the right hand side.
         </p>
       </div>
 
@@ -163,8 +131,8 @@
         ></iframe>
         <figcaption>
           <strong>Figure 3.</strong> Interactive district comparison of average yearly incidents before COVID
-          (2018–2019) and during COVID (2020–2021). Switching categories shows that the magnitude of change
-          varied substantially across police districts.
+          (2018-2019) and during COVID (2020-2021). Switching categories shows that the magnitude of change
+          varied across police districts.
         </figcaption>
       </figure>
     </section>
@@ -173,38 +141,22 @@
       <div class="section-tag">Conclusion</div>
       <h2>The main story is divergence, not one overall trend</h2>
       <p>
-        The clearest takeaway is not that COVID simply increased or decreased crime in San Francisco.
-        It is that the pandemic period produced divergence. Burglary and motor vehicle theft rose,
-        assault fell, and burglary’s geography appears to have widened.
+        The clearest takeaway is <b>not</b> that COVID simply increased or decreased crime in San Francisco.
+        But rather, that the pandemic created a divergence. Burglary and motor vehicle theft rose,
+        assault fell, and burglaries appears to have widened geographically.
       </p>
       <p>
-        This makes the COVID period look less like one clean trend line and more like a reshaping of the city’s
-        recorded crime profile. That is a more careful and more honest conclusion than treating all categories alike.
+        This makes the COVID period look less like one clean trend line and more like a reshaping of the general 
+        recorded crime footprint. That is a more careful and more honest conclusion than just treating all categories the same.
       </p>
     </section>
 
-    <section class="story-block notes reveal">
-      <div class="section-tag">Notes</div>
-      <h2>Method and caution</h2>
-      <p>
-        This page is intentionally linear and author-led, following the “magazine” genre of narrative visualization:
-        text and visuals alternate to guide the reader through one argument rather than leaving the story fully open-ended. :contentReference[oaicite:0]{index=0}
-      </p>
-      <p>
-        The evidence here supports claims about <em>recorded incidents</em>, not definitive causal claims about behavior.
-        Reporting practices, policing, and classification choices can also shape the patterns seen in the data.
-      </p>
-      <ul class="ref-list">
-        <li>Course dataset: San Francisco police incident records, 2003–2025.</li>
-        <li>Segel, E. & Heer, J. <em>Narrative Visualization: Telling Stories with Data</em>. :contentReference[oaicite:1]{index=1}</li>
-      </ul>
-    </section>
-  </main>
 
   <footer class="site-footer">
-    <p>Built for GitHub Pages · Dark mode · Three-figure narrative</p>
+    <p>Created by Jacob Kildegaard Hansen, Nicklas Thorvald Kiær and Oliver Brandt-Olsen</p>
   </footer>
 
+  <!-- Make sections visible when they come into view -->
   <script>
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
