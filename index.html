@@ -207,87 +207,108 @@
 
   <!-- ============================================================
        CHAPTER 02 — Hourly rhythm
-  ============================================================ 
-  <section class="section section-dark" id="hourly-rhythm">
-    <div class="container">
-      <div class="chapter-label">Chapter 02</div>
-      <h2 class="section-heading">The night builds, then the late signal appears</h2>
-      <div class="prose prose-wide">
-        <p>
-          Foot traffic is highest in the early evening, but that does not automatically
-          mean clubbing. The more distinctive nightlife signal appears later, when
-          weekend activity stays elevated while weekday activity fades. Hover over the
-          chart to explore how the night builds from 18:00 through 05:00.
-        </p>
-      </div>
-      <div class="chart-card chart-card-light" data-animate>
-        <div class="chart-card-header chart-card-header-light">
-          <h3>How the Night Builds Near Club Areas</h3>
-          <p>Context animation for 18:00–05:00; the main late-night metric remains 22:00–02:59</p>
-        </div>
-        <div class="iframe-wrap" style="height: 480px;">
-          <iframe
-            src="outputs/nightclubbing_story/html/interactive_hourly_nightlife_rhythm.html"
-            title="Interactive chart: hourly nightlife rhythm"
-            scrolling="no"
-            loading="lazy"
-          ></iframe>
-        </div>
-      </div>
-      <div class="stat-inline-row" data-animate>
-        <div class="stat-inline">
-          <div class="stat-inline-num">Saturday</div>
-          <div class="stat-inline-label">Strongest nightlife day of the week</div>
-        </div>
-        <div class="stat-inline">
-          <div class="stat-inline-num">417</div>
-          <div class="stat-inline-label">Avg pedestrians per sensor-hour on Saturdays</div>
-        </div>
-        <div class="stat-inline">
-          <div class="stat-inline-num">18:00</div>
-          <div class="stat-inline-label">Early-evening high point, before the stricter late-night window</div>
-        </div>
-      </div>
-    </div>
-  </section> -->
+       ============================================-->
+ 
+  <section class="section section-alt" id="hourly-rhythm">
+  <div class="container">
+    <div class="chapter-label">Chapter 02</div>
 
-  <!-- ============================================================
-       CHAPTER 03 — Seasonality
-  ============================================================ -->
-  <section class="section section-alt" id="seasonal">
+    <h2 class="section-heading">The night builds, then the late signal appears</h2>
+
+    <div class="prose prose-wide">
+      <p>
+        Foot traffic is highest in the early evening, but that does not automatically
+        mean clubbing. The more distinctive nightlife signal appears later, when
+        weekend activity stays elevated while weekday activity fades.
+      </p>
+    </div>
+
+    <div class="chart-card chart-card-light" data-animate>
+      <div class="chart-card-header chart-card-header-light">
+        <h3>How the Night Builds Near Club Areas</h3>
+        <p>Hourly context for 18:00–05:00; the main late-night metric remains 22:00–02:59</p>
+      </div>
+
+      <figure class="chart-image-wrap">
+        <img
+          src="outputs/nightclubbing_story/charts/hourly_nightlife_rhythm_club_areas_modern.png"
+          alt="Line chart showing the hourly nightlife pedestrian rhythm near researched club areas"
+          class="chart-image"
+          loading="lazy"
+        />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="rankings">
     <div class="container">
       <div class="chapter-label">Chapter 03</div>
-      <h2 class="section-heading">Summer is when Melbourne shines</h2>
+      <h2 class="section-heading">Ranking the nightlife areas</h2>
+
       <div class="prose prose-wide">
         <p>
-          Melbourne's seasons shape its nightlife. We tracked weekend late-night
-          pedestrian activity across two full years and found a clear seasonal signal —
-          Summer consistently leads, though some areas hold their own through Winter.
-          Hover over the lines to compare.
+          We ranked 11 Melbourne nightlife areas by combining pedestrian activity with
+          nearby venue popularity and review quality. Each area is scored out of 100 using
+          five weighted signals: weekend late-night foot traffic, total nearby club reviews,
+          weekend-vs-weekday uplift, review-weighted rating, and the broader hourly
+          nightlife pattern from 18:00 to 05:00.
         </p>
+
+        <p>
+          The goal is not just to find the most reviewed venue or the busiest street, but
+          to identify the areas where popularity, ratings, and real late-night movement
+          line up most strongly.
+        </p>
+      </div>
+      <div class="score-formula-card" data-animate>
+        <div class="formula-title">How to read the score</div>
+        <div class="formula-row" aria-label="Nightclubbing score formula">
+          <span class="formula-main" style="color: black;">Nightclubbing score</span>
+          <span class="formula-equals">=</span>
+          <span class="formula-chip chip-ped">45% weekend late-night foot traffic</span>
+          <span class="formula-plus">+</span>
+          <span class="formula-chip chip-pop">25% review popularity</span>
+          <span class="formula-plus">+</span>
+          <span class="formula-chip chip-uplift">15% weekend uplift</span>
+          <span class="formula-plus">+</span>
+          <span class="formula-chip chip-rating">10% review-weighted rating</span>
+          <span class="formula-plus">+</span>
+          <span class="formula-chip chip-hour">5% hourly profile</span>
+        </div>
       </div>
       <div class="chart-card chart-card-light" data-animate>
-        <div class="chart-card-header chart-card-header-light">
-          <h3>Weekend Late-Night Activity by Season and Year</h3>
-          <p>Average pedestrians per sensor-hour across club-adjacent areas — interactive</p>
-        </div>
-        <div class="iframe-wrap" style="height: 480px;">
-          <iframe
-            src="outputs/nightclubbing_story/html/interactive_seasonal_trends.html"
-            title="Interactive chart: seasonal trends"
-            scrolling="no"
-            loading="lazy"
-          ></iframe>
-        </div>
-      </div>
-      <blockquote class="callout" data-animate>
-        <p>
-          Summer leads with an average of <strong>318 pedestrians per sensor-hour</strong>
-          on weekend late nights — the strongest season for nightlife activity in the dataset.
-        </p>
-      </blockquote>
-    </div>
-  </section>
+  <div class="chart-card-header chart-card-header-light">
+    <h3 style=color:black>Nightclubbing Area Rankings</h3>
+    <p>
+      Ranked score out of 100. Hover over the chart to see how each area performs
+      across the scoring components.
+    </p>
+  </div>
+
+  <div class="iframe-wrap ranking-chart-wrap">
+    <iframe
+      src="outputs/nightclubbing_story/charts/nightclubbing_area_rankings.html"
+      title="Interactive nightclubbing area rankings chart"
+      loading="lazy"
+      scrolling="no"
+    ></iframe>
+  </div>
+
+  <div class="map-meta">
+    <a
+      class="fullscreen-link"
+      href="outputs/nightclubbing_story/charts/nightclubbing_area_rankings.html"
+      target="_blank"
+      rel="noopener"
+    >
+      Open full-screen chart
+    </a>
+  </div>
+</div>
+</section>
+
+
 
   <!-- ============================================================
      THE VERDICT — main finding
@@ -422,65 +443,14 @@
   <!-- ============================================================
        EXPLORE 01 — Full rankings
   ============================================================ -->
-  <section class="section section-dark" id="rankings">
-    <div class="container">
-      <div class="chapter-label">Explore 01</div>
-      <h2 class="section-heading">All 11 areas, ranked</h2>
-      <div class="prose prose-wide">
-        <p>
-          How does your favourite area stack up? The nightclubbing score combines five
-          signals: weekend late-night pedestrian intensity (45%), nearby club popularity
-          by review count (25%), weekend-vs-weekday lift (15%), review-weighted rating
-          (10%), and an hourly profile signal from the broader 18:00-05:00 night window
-          (5%). Hover any bar for the full breakdown.
-        </p>
-      </div>
-      <div class="score-formula-card" data-animate>
-        <div class="formula-title">How to read the score</div>
-        <div class="formula-row" aria-label="Nightclubbing score formula">
-          <span class="formula-main">Nightclubbing score</span>
-          <span class="formula-equals">=</span>
-          <span class="formula-chip chip-ped">45% weekend late-night foot traffic</span>
-          <span class="formula-plus">+</span>
-          <span class="formula-chip chip-pop">25% review popularity</span>
-          <span class="formula-plus">+</span>
-          <span class="formula-chip chip-uplift">15% weekend uplift</span>
-          <span class="formula-plus">+</span>
-          <span class="formula-chip chip-rating">10% review-weighted rating</span>
-          <span class="formula-plus">+</span>
-          <span class="formula-chip chip-hour">5% hourly profile</span>
-        </div>
-      </div>
-      <div class="chart-card chart-card-dark" data-animate>
-  <div class="chart-card-header chart-card-header-dark">
-    <h3, style=color:black">Nightclubbing Area Rankings</h3>
-    <p>
-      Ranked score out of 100. Hover over the chart to see how each area performs
-      across the scoring components.
-    </p>
-  </div>
+<!-- ============================================================
+     POPULARITY VS PERFORMANCE
+============================================================ -->
+<section class="section section-dark" id="popularity-performance">
+  <div class="container">
+    <div class="chapter-label">Explore 01</div>
 
-  <div class="iframe-wrap ranking-chart-wrap">
-    <iframe
-      src="outputs/nightclubbing_story/charts/nightclubbing_area_rankings.html"
-      title="Interactive nightclubbing area rankings chart"
-      loading="lazy"
-      scrolling="no"
-    ></iframe>
-  </div>
-
-  <div class="map-meta">
-    <a
-      class="fullscreen-link"
-      href="outputs/nightclubbing_story/charts/nightclubbing_area_rankings.html"
-      target="_blank"
-      rel="noopener"
-    >
-      Open full-screen chart
-    </a>
-  </div>
-</div>
-      <h2 class="section-heading">From popularity to performance</h2>
+    <h2 class="section-heading">From popularity to performance</h2>
 
     <div class="prose prose-wide">
       <p>
@@ -495,27 +465,32 @@
         both signals: strong venue popularity and high levels of real foot traffic.
       </p>
     </div>
-      <div class="chart-card chart-card-dark" data-animate>
-        <div class="chart-card-header chart-card-header-dark">
-          <h3>Reviews vs Weekend Foot Traffic</h3>
-          <p>This is a sanity check on the score: review popularity and street activity overlap, but the exceptions explain why both signals matter.</p>
-        </div>
-        <div class="chart-img-wrap">
-          <img
-            src="outputs/nightclubbing_story/charts/club_popularity_vs_weekend_late_pedestrians_club_names.png"
-            alt="Scatter chart showing club review count on the x-axis and weekend late-night pedestrian average on the y-axis"
-            class="chart-img"
-          >
-        </div>
+
+    <div class="chart-card" data-animate>
+      <div class="chart-card-header chart-card-header-dark">
+        <h3>Reviews vs Weekend Foot Traffic</h3>
+        <p>
+          This is a sanity check on the score: review popularity and street activity
+          overlap, but the exceptions explain why both signals matter.
+        </p>
+      </div>
+
+      <div class="chart-img-wrap">
+        <img
+          src="outputs/nightclubbing_story/charts/club_popularity_vs_weekend_late_pedestrians_club_names.png"
+          alt="Scatter chart showing club review count on the x-axis and weekend late-night pedestrian average on the y-axis"
+          class="chart-img"
+        >
       </div>
     </div>
-  </section>
+  </div>
+</section>
   <!-- ============================================================
        EXPLORE 04 — Animated hourly map
   ============================================================ -->
   <section class="section section-dark" id="animated">
     <div class="container">
-      <div class="chapter-label">Explore 04</div>
+      <div class="chapter-label">Explore 02</div>
       <h2 class="section-heading">Watch the night unfold</h2>
       <div class="prose prose-wide">
         <p>
@@ -552,7 +527,7 @@
       <p>
         Melbourne After Dark · Social Data Analysis &amp; Visualization ·
         Data: City of Melbourne Open Data ·
-        <a href="notebooks/explainer_notebook.ipynb" target="_blank" rel="noopener">Explainer notebook</a>
+        <a href="Notebook/group19_final_assignment_B.ipynb" target="_blank" rel="noopener">Explainer notebook</a>
       </p>
     </div>
   </footer>
