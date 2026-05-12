@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melbourne Night Build Animation</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #06060f; font-family: -apple-system, 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    #map { width: 100%; height: calc(100% - 90px); }
+
+    #controls {
+      height: 90px;
+      background: #0c0c20;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+    }
+
+    #play-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: #a78bfa;
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 13px; font-weight: 700;
+      color: #06060f;
+      transition: background 0.18s, transform 0.1s;
+      line-height: 1;
+    }
+    #play-btn:hover  { background: #c4b5fd; }
+    #play-btn:active { transform: scale(0.93); }
+
+    .timeline { flex: 1; display: flex; gap: 4px; align-items: center; overflow: hidden; }
+
+    .hour-btn {
+      flex: 1; min-width: 0;
+      padding: 7px 2px;
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.66rem; cursor: pointer;
+      transition: all 0.15s; text-align: center;
+      font-family: inherit; white-space: nowrap;
+    }
+    .hour-btn:hover {
+      background: rgba(167,139,250,0.14);
+      border-color: rgba(167,139,250,0.4);
+      color: #fff;
+    }
+    .hour-btn.active {
+      background: #a78bfa;
+      border-color: #a78bfa;
+      color: #06060f; font-weight: 700;
+    }
+
+    .side-col { width: 68px; flex-shrink: 0; text-align: center; }
+    .side-label { font-size: 0.58rem; color: rgba(255,255,255,0.32); margin-bottom: 5px; letter-spacing: 0.1em; text-transform: uppercase; }
+    .bar-bg { background: rgba(255,255,255,0.07); border-radius: 4px; height: 6px; overflow: hidden; }
+    .bar-fill { height: 100%; background: linear-gradient(to right, #a78bfa, #f472b6); border-radius: 4px; transition: width 0.6s ease; }
+    .bar-val { font-size: 0.7rem; color: #a78bfa; font-weight: 600; margin-top: 5px; }
+
+    /* Custom tooltip styling injected into Leaflet */
+    .leaflet-tooltip.sensor-tip {
+      background: rgba(12,12,32,0.92);
+      border: 1px solid rgba(167,139,250,0.35);
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-family: -apple-system, 'Inter', sans-serif;
+      font-size: 0.78rem;
+      padding: 8px 12px;
+      pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      white-space: nowrap;
+    }
+    .sensor-tip strong { color: #c4b5fd; display: block; margin-bottom: 3px; font-size: 0.82rem; }
+    .sensor-tip .tip-count { color: #fde68a; font-weight: 700; font-size: 1rem; }
+    .sensor-tip .tip-label { color: rgba(255,255,255,0.45); font-size: 0.7rem; }
+    .map-legend {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      z-index: 600;
+      background: rgba(12,12,32,0.88);
+      border: 1px solid rgba(167,139,250,0.35);
+      border-radius: 8px;
+      color: #e2e8f0;
+      padding: 12px 14px;
+      font-size: 0.72rem;
+      line-height: 1.55;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.32);
+    }
+    .map-legend strong {
+      display: block;
+      color: #c4b5fd;
+      margin-bottom: 4px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.62rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+  <div class="map-legend">
+    <strong>Legend</strong>
+    Circle size = pedestrians/hr<br>
+    Color = hourly intensity
+  </div>
+  <div id="controls">
+    <button id="play-btn" aria-label="Play / Pause">&#9654;</button>
+    <div class="timeline" id="timeline"></div>
+    <div class="side-col">
+      <div class="side-label">Intensity</div>
+      <div class="bar-bg"><div class="bar-fill" id="act-bar" style="width:100%"></div></div>
+      <div class="bar-val" id="act-pct">100%</div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // DATA — 12 frames (18:00–05:00), 11 sensors each
+    // Source: extracted from folium animated heatmap notebook output
+    // ============================================================
+    const HOURS = ['18:00','19:00','20:00','21:00','22:00','23:00','00:00','01:00','02:00','03:00','04:00','05:00'];
+
+    // Sensor names matched to coordinate order
+    const NAMES = [
+      'Collins Place (North)',
+      '155–161 Russell Street',
+      'Queen St (West)',
+      'Alfred Place',
+      'Lonsdale–Elizabeth (North)',
+      'Elizabeth–Lonsdale (South)',
+      '231 Bourke St',
+      'Elizabeth–Flinders (East)',
+      'I-Hub King/Flinders',
+      '163 King Street',
+      '124 Elizabeth Street'
+    ];
+
+    // [lat, lng, avg_pedestrians_per_sensor_hour]
+    const RAW = [
+      [[-37.81344862,144.97305353,164.91],[-37.81267313,144.96788288,995.55],[-37.81652527,144.96121062,367.96],[-37.81379749,144.96995745,129.83],[-37.81252157,144.96194010,789.87],[-37.81234775,144.96153311,925.20],[-37.81333081,144.96675571,891.08],[-37.81798049,144.96503383,2361.87],[-37.82009057,144.95758725,246.73],[-37.81627451,144.95550503,621.10],[-37.81512416,144.96371988,1816.20]],
+      [[-37.81344862,144.97305353,96.74],[-37.81267313,144.96788288,1010.88],[-37.81652527,144.96121062,318.14],[-37.81379749,144.96995745,88.00],[-37.81252157,144.96194010,769.64],[-37.81234775,144.96153311,928.94],[-37.81333081,144.96675571,847.68],[-37.81798049,144.96503383,1994.47],[-37.82009057,144.95758725,238.10],[-37.81627451,144.95550503,626.47],[-37.81512416,144.96371988,1515.69]],
+      [[-37.81344862,144.97305353,52.84],[-37.81267313,144.96788288,885.98],[-37.81652527,144.96121062,305.97],[-37.81379749,144.96995745,45.66],[-37.81252157,144.96194010,656.20],[-37.81234775,144.96153311,825.20],[-37.81333081,144.96675571,683.06],[-37.81798049,144.96503383,1745.93],[-37.82009057,144.95758725,234.98],[-37.81627451,144.95550503,598.26],[-37.81512416,144.96371988,1240.37]],
+      [[-37.81344862,144.97305353,39.12],[-37.81267313,144.96788288,762.26],[-37.81652527,144.96121062,286.14],[-37.81379749,144.96995745,45.90],[-37.81252157,144.96194010,543.16],[-37.81234775,144.96153311,705.50],[-37.81333081,144.96675571,569.29],[-37.81798049,144.96503383,1601.07],[-37.82009057,144.95758725,258.40],[-37.81627451,144.95550503,545.29],[-37.81512416,144.96371988,978.20]],
+      [[-37.81344862,144.97305353,44.81],[-37.81267313,144.96788288,711.30],[-37.81652527,144.96121062,311.76],[-37.81379749,144.96995745,38.56],[-37.81252157,144.96194010,458.06],[-37.81234775,144.96153311,525.06],[-37.81333081,144.96675571,501.83],[-37.81798049,144.96503383,1350.31],[-37.82009057,144.95758725,297.81],[-37.81627451,144.95550503,543.03],[-37.81512416,144.96371988,727.62]],
+      [[-37.81344862,144.97305353,28.00],[-37.81267313,144.96788288,548.65],[-37.81652527,144.96121062,330.72],[-37.81379749,144.96995745,28.54],[-37.81252157,144.96194010,421.76],[-37.81234775,144.96153311,352.29],[-37.81333081,144.96675571,375.68],[-37.81798049,144.96503383,829.35],[-37.82009057,144.95758725,302.93],[-37.81627451,144.95550503,503.43],[-37.81512416,144.96371988,490.07]],
+      [[-37.81344862,144.97305353,13.45],[-37.81267313,144.96788288,419.62],[-37.81652527,144.96121062,290.13],[-37.81379749,144.96995745,13.86],[-37.81252157,144.96194010,323.30],[-37.81234775,144.96153311,212.31],[-37.81333081,144.96675571,267.68],[-37.81798049,144.96503383,454.35],[-37.82009057,144.95758725,226.21],[-37.81627451,144.95550503,357.64],[-37.81512416,144.96371988,268.41]],
+      [[-37.81344862,144.97305353,6.85],[-37.81267313,144.96788288,288.32],[-37.81652527,144.96121062,258.07],[-37.81379749,144.96995745,8.32],[-37.81252157,144.96194010,222.91],[-37.81234775,144.96153311,140.68],[-37.81333081,144.96675571,193.33],[-37.81798049,144.96503383,296.60],[-37.82009057,144.95758725,176.71],[-37.81627451,144.95550503,266.50],[-37.81512416,144.96371988,197.01]],
+      [[-37.81344862,144.97305353,4.47],[-37.81267313,144.96788288,185.21],[-37.81652527,144.96121062,221.31],[-37.81379749,144.96995745,5.95],[-37.81252157,144.96194010,123.21],[-37.81234775,144.96153311,93.15],[-37.81333081,144.96675571,132.11],[-37.81798049,144.96503383,194.00],[-37.82009057,144.95758725,136.69],[-37.81627451,144.95550503,205.26],[-37.81512416,144.96371988,136.91]],
+      [[-37.81344862,144.97305353,3.22],[-37.81267313,144.96788288,140.89],[-37.81652527,144.96121062,235.96],[-37.81379749,144.96995745,4.89],[-37.81252157,144.96194010,98.29],[-37.81234775,144.96153311,74.07],[-37.81333081,144.96675571,92.21],[-37.81798049,144.96503383,128.77],[-37.82009057,144.95758725,113.62],[-37.81627451,144.95550503,179.70],[-37.81512416,144.96371988,94.40]],
+      [[-37.81344862,144.97305353,2.40],[-37.81267313,144.96788288,54.80],[-37.81652527,144.96121062,47.23],[-37.81379749,144.96995745,3.07],[-37.81252157,144.96194010,53.21],[-37.81234775,144.96153311,52.66],[-37.81333081,144.96675571,28.36],[-37.81798049,144.96503383,88.67],[-37.82009057,144.95758725,76.48],[-37.81627451,144.95550503,138.85],[-37.81512416,144.96371988,57.60]],
+      [[-37.81344862,144.97305353,2.43],[-37.81267313,144.96788288,27.26],[-37.81652527,144.96121062,24.80],[-37.81379749,144.96995745,4.26],[-37.81252157,144.96194010,31.06],[-37.81234775,144.96153311,47.55],[-37.81333081,144.96675571,16.48],[-37.81798049,144.96503383,75.82],[-37.82009057,144.95758725,52.71],[-37.81627451,144.95550503,84.21],[-37.81512416,144.96371988,55.72]]
+    ];
+
+    // Totals per hour + global max for normalization
+    const HOUR_TOTALS = RAW.map(f => f.reduce((s, p) => s + p[2], 0));
+    const MAX_TOTAL   = Math.max(...HOUR_TOTALS);
+    const GLOBAL_MAX  = Math.max(...RAW.flat().map(p => p[2]));  // 2361.87
+
+    // ============================================================
+    // COLOUR SCALE  indigo → purple → pink → orange → yellow
+    // ============================================================
+    const SCALE = [
+      [0.00, [30,  27,  75]],
+      [0.18, [124, 58,  237]],
+      [0.45, [219, 39,  119]],
+      [0.72, [249, 115, 22]],
+      [1.00, [253, 230, 138]]
+    ];
+
+    function valueToColor(norm) {
+      const t = Math.max(0, Math.min(1, norm));
+      let lo = SCALE[0], hi = SCALE[SCALE.length - 1];
+      for (let i = 1; i < SCALE.length; i++) {
+        if (t <= SCALE[i][0]) { lo = SCALE[i-1]; hi = SCALE[i]; break; }
+      }
+      const f = (t - lo[0]) / (hi[0] - lo[0]);
+      const r = Math.round(lo[1][0] + (hi[1][0] - lo[1][0]) * f);
+      const g = Math.round(lo[1][1] + (hi[1][1] - lo[1][1]) * f);
+      const b = Math.round(lo[1][2] + (hi[1][2] - lo[1][2]) * f);
+      return `rgb(${r},${g},${b})`;
+    }
+
+    // Radius using sqrt scale so small values are still visible
+    // Range: ~6px (dead quiet) → 40px (peak 2361)
+    function valueToRadius(v) {
+      return 6 + 34 * Math.sqrt(v / GLOBAL_MAX);
+    }
+
+    function fmtCount(v) {
+      return v >= 1000
+        ? (v / 1000).toFixed(1) + 'k'
+        : Math.round(v).toLocaleString();
+    }
+
+    // ============================================================
+    // MAP
+    // ============================================================
+    const map = L.map('map', {
+      center: [-37.8145, 144.963],
+      zoom: 14,
+      zoomControl: true,
+      attributionControl: true
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd', maxZoom: 20,
+      attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a> © <a href="https://carto.com">CARTO</a>'
+    }).addTo(map);
+
+    // ---- Heatmap layer (global normalization, subtle glow) ----
+    let heatLayer = null;
+
+    function updateHeat(frameIdx) {
+      // Cap at 700 so mid-intensity sensors glow, not just the dominant one
+      const CAP = 700;
+      const pts = RAW[frameIdx].map(p => [p[0], p[1], Math.min(p[2] / CAP, 1.0)]);
+      if (heatLayer) map.removeLayer(heatLayer);
+      heatLayer = L.heatLayer(pts, {
+        radius: 48, blur: 38, max: 1.0, minOpacity: 0.0,
+        gradient: { 0.0: 'transparent', 0.3: '#1e1b4b', 0.6: '#7c3aed', 1.0: '#c084fc' }
+      }).addTo(map);
+    }
+
+    // ---- Circle markers (update in-place each frame) ----
+    const circleMarkers = RAW[0].map((pt, i) => {
+      const norm = pt[2] / GLOBAL_MAX;
+      const m = L.circleMarker([pt[0], pt[1]], {
+        radius: valueToRadius(pt[2]),
+        fillColor: valueToColor(norm),
+        fillOpacity: 0.88,
+        color: 'rgba(255,255,255,0.55)',
+        weight: 1.5
+      }).addTo(map);
+
+      m.bindTooltip('', {
+        className: 'sensor-tip',
+        sticky: false,
+        direction: 'top',
+        offset: [0, -6]
+      });
+
+      return m;
+    });
+
+    function updateCircles(frameIdx) {
+      RAW[frameIdx].forEach((pt, i) => {
+        const norm = pt[2] / GLOBAL_MAX;
+        circleMarkers[i].setRadius(valueToRadius(pt[2]));
+        circleMarkers[i].setStyle({
+          fillColor: valueToColor(norm),
+          fillOpacity: 0.88
+        });
+        circleMarkers[i].setTooltipContent(
+          `<strong>${NAMES[i]}</strong>` +
+          `<span class="tip-count">${fmtCount(pt[2])}</span> ` +
+          `<span class="tip-label">pedestrians/hr</span>`
+        );
+      });
+    }
+
+    // ============================================================
+    // TIMELINE BUTTONS
+    // ============================================================
+    const timeline = document.getElementById('timeline');
+    HOURS.forEach((h, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'hour-btn' + (i === 0 ? ' active' : '');
+      btn.textContent = h;
+      btn.addEventListener('click', () => { if (playing) stopPlay(); goToFrame(i); });
+      timeline.appendChild(btn);
+    });
+
+    // ============================================================
+    // FRAME LOGIC
+    // ============================================================
+    let currentFrame = 0;
+    let playing = false;
+    let playInterval = null;
+
+    function goToFrame(i) {
+      currentFrame = i;
+      updateHeat(i);
+      updateCircles(i);
+
+      document.querySelectorAll('.hour-btn').forEach((b, idx) => {
+        b.classList.toggle('active', idx === i);
+      });
+
+      const pct = Math.round((HOUR_TOTALS[i] / MAX_TOTAL) * 100);
+      document.getElementById('act-bar').style.width = pct + '%';
+      document.getElementById('act-pct').textContent = pct + '%';
+    }
+
+    function startPlay() {
+      playing = true;
+      document.getElementById('play-btn').innerHTML = '&#9646;&#9646;';
+      playInterval = setInterval(() => goToFrame((currentFrame + 1) % HOURS.length), 950);
+    }
+
+    function stopPlay() {
+      playing = false;
+      clearInterval(playInterval);
+      document.getElementById('play-btn').innerHTML = '&#9654;';
+    }
+
+    document.getElementById('play-btn').addEventListener('click', () => {
+      playing ? stopPlay() : startPlay();
+    });
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    goToFrame(0);
+  </script>
+</body>
+</html>

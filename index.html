@@ -1,172 +1,562 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>COVID Impact on San Francisco Crime Rates</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melbourne After Dark — A Nightlife Data Story</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="page-bg"></div>
-  <header class="hero">
-    <nav class="topbar">
-      <div class="brand">Assignment 2 - A Short Data Story</div>
-    </nav>
+
+  <div id="progress-bar-wrap" aria-hidden="true"><div id="progress-bar"></div></div>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="hero" class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="hero-sun"></div>
+
+      <div class="hero-glow hero-glow-1"></div>
+      <div class="hero-glow hero-glow-2"></div>
+      <div class="hero-glow hero-glow-3"></div>
+    </div>
     <div class="hero-inner">
-      <p class="eyebrow reveal">Based on San Francisco police incident records during 2003-2025</p>
-      <h1 class="reveal delay-1">COVID impact on San Francisco crime rates</h1>
-      <p class="hero-dek reveal delay-2">
-        The COVID-19 pandemic did not have the same effect on all crime categories in San Fransisco. Some categories have their own stories to tell. This short data story shows the differences across 4 selected crime categories, burglary, motor vehicle theft, robbery, and assault. 
+      <div class="hero-eyebrow">A data story</div>
+      <h1 class="hero-title">
+        Melbourne<br>
+        <span class="accent">After Dark</span>
+      </h1>
+      <p class="hero-sub">
+        Where does the city really come alive on a Friday night?
+        We analysed nearly 1.56 million hourly pedestrian sensor readings across
+        100 City of Melbourne sensor locations — and matched them to club review
+        data — to find out.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat-item">
+          <span class="hero-stat-num">100</span>
+          <span class="hero-stat-label">Sensors</span>
+        </div>
+        <div class="hero-stat-divider" aria-hidden="true">·</div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-num">1.56M</span>
+          <span class="hero-stat-label">Readings</span>
+        </div>
+        <div class="hero-stat-divider" aria-hidden="true">·</div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-num">16</span>
+          <span class="hero-stat-label">Clubs researched</span>
+        </div>
+        <div class="hero-stat-divider" aria-hidden="true">·</div>
+        <div class="hero-stat-item">
+          <span class="hero-stat-num">2 yrs</span>
+          <span class="hero-stat-label">of data</span>
+        </div>
+      </div>
+      <div class="scroll-cue" aria-label="Scroll to explore">
+        <span>Scroll to explore</span>
+        <div class="scroll-arrow" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       INTRO — the setup
+  ============================================================ -->
+  <section class="section section-dark" id="intro">
+    <div class="intro-moon" aria-hidden="true"></div>
+    <div class="container">
+      <div class="chapter-label">The Setup</div>
+      <h2 class="section-heading">
+        Melbourne is famous for its nightlife.<br>
+        But <em>where</em> do people actually go?
+      </h2>
+      <div class="prose">
+        <p>
+          Nightlife reputation is built on stories — word of mouth, social media, and
+          reviews. But behind those stories is something more concrete: foot traffic.
+          People vote with their feet.
+        </p>
+        <p>
+          We combined two public datasets — Melbourne's pedestrian counting system and
+          club review data — to answer a simple question: <strong>which areas of Melbourne see the most real activity on Friday and Saturday nights?</strong>
+        </p>
+        <p>
+          For this analysis, "late night" means 22:00 to 02:59. Because a 1 am Saturday
+          crowd started their night on Friday, we assign early-morning hours back to the
+          previous nightlife date. The data covers May 2024 to May 2026.
+        </p>
+      </div>
+      
+      <!--  -->
+  </section>
+
+  <!-- ============================================================
+     SENSOR + VENUE PLACEMENT
+============================================================ -->
+<section class="section section-dark" id="sensor-venue-placement">
+  <div class="container">
+    <h2 class="section-heading">
+      Where the sensors and venues are placed
+    </h2>
+
+    <div class="prose prose-wide">
+      <p>
+        To understand Melbourne’s nightlife patterns, we first mapped the pedestrian
+        sensor network against the bars and clubs.
+        The map shows where the sensors sit across the city, and how each
+        venue is linked to a nearby sensor area.
+      </p>
+
+      <p>
+        Blue markers represent City of Melbourne pedestrian sensors, while orange
+        markers represent the researched nightlife venues. Grey lines show the
+        relationship between a venue and the sensor used as its nearby street-activity
+        proxy. More information about the venue or sensor can be found by clicking the markers on the interactive map below.
       </p>
     </div>
-  </header>
 
-  <main id="story" class="story-shell">
-    <section class="story-block text-only reveal">
-      <div class="section-tag">Introduction</div>
-      <h2>Reading police incident data with care</h2>
-      <p>
-        This story uses the merged San Francisco police incident records from 2003 to 2025, created during the course.
-      </p>
-      <p>
-        It is important to note, that the rise in one category does not, by itself,
-        prove one cause, and a drop in another does not mean the underlying problem disappeared.
-        Still, the data clearly shows that COVID did not affect all recorded crime categories equally.
-      </p>
-    </section>
-
-    <section class="story-block viz-section reveal">
-      <div class="section-tag">Trend Direction Discrepencies</div>
-      <div class="text-col">
-        <h2>Not all categories moved in the same direction during COVID</h2>
-        <p>
-          The first figure establishes the central claim. During the COVID period, burglary
-          and motor vehicle theft rose relative to the years jjust before, while assault declined.
-          And robbery appears no have stayed relatively consistant.
-        </p>
-        <p>
-          This means that any single statement about “crime going up” or “crime going down”
-          doesnt capture the full picture. The pandemic appears to have changed the composition
-          of recorded crime, not just the overall total.
-        </p>
+    <div class="chart-card" data-animate>
+      <div class="chart-card-header">
+        <h3>Sensor and Venue Placement Map</h3>
       </div>
 
-      <figure class="viz-card static-card">
-        <img
-          src="visualizations/covid_crime_trends_static.png"
-          alt="Line chart showing yearly incidents for Burglary, Motor Vehicle Theft, Robbery, and Assault, with the COVID period shaded."
-        />
-        <figcaption>
-          <strong>Figure 1.</strong> Recorded yearly incidents for burglary, motor vehicle theft,
-          robbery, and assault in San Francisco. The shaded area marks the COVID period.
-          Burglary and motor vehicle theft rise during this window, while assault declines,
-          showing that the pandemic did not affect all recorded crime categories the same.
-        </figcaption>
-      </figure>
-    </section>
-
-    <section class="story-block text-only reveal">
-      <div class="section-tag">Interpretation</div>
-      <h2>A disruption to routine life can reshape opportunity</h2>
-      <p>
-        One plausible interpretation, is that the pandemic changed everyday life in big cities.
-        Movement patterns, business activity, empty streets, closed workplaces, are all examples of routines that were greatly affected during the pandemic.
-        And at the same time, routines that greatly affect the oppurtunities for crime. Empty streets and closed businesses may have created more opportunities for burglary and motor vehicle theft, while fewer interactions in public spaces may have reduced assault.
-      </p>
-    </section>
-
-    <section class="story-block viz-section reveal">
-      <div class="section-tag">Geographic Distribution</div>
-      <div class="text-col">
-        <h2>Burglary also became less concentrated geographically</h2>
-        <p>
-          The second visualization focuses on burglary. Before COVID, burglary was more tightly
-          concentrated in fewer hotspots. During COVID, that concentration actually spreads across
-          a broader area of the city.
-        </p>
-        <p>
-          This suggests that the pandemic change was not just more burglary incidents in the same places.
-          It also changed where burglary was recorded throughout San Francisco.
-        </p>
-      </div>
-
-      <figure class="viz-card iframe-card map-card">
+      <div class="iframe-wrap" style="height: 620px;">
         <iframe
-          src="visualizations/burglary_heatmap_before_vs_during_covid.html"
-          title="Burglary heatmaps before and during COVID in San Francisco"
+          src="outputs/nightclubbing_story/maps/all_sensors_and_venue_proxy_markers_map.html"
+          title="Map showing pedestrian sensors and researched nightlife venues"
           loading="lazy"
         ></iframe>
-        <figcaption>
-          <strong>Figure 2.</strong> Heatmaps compare burglary incident concentration before COVID
-          (2018-2019) and during COVID (2020-2021). The during-COVID map shows a broader footprint,
-          suggesting that burglary became less tightly concentrated geographically.
-        </figcaption>
-      </figure>
-    </section>
-
-    <section class="story-block text-only reveal">
-      <div class="section-tag">Comparison</div>
-      <h2>The shift was uneven across districts too</h2>
-      <p>
-        Category-level change is only part of the picture. Once the city is broken into police districts,
-        the COVID period looks uneven there as well. Some districts changed much more than others.
-      </p>
-    </section>
-
-    <section class="story-block viz-section reveal">
-      <div class="section-tag">District Comparison</div>
-      <div class="text-col">
-        <h2>District comparisons show big differences</h2>
-        <p>
-          The final visualization compares average yearly incidents in each police district before COVID
-          and during COVID. You can switch between burglary, motor vehicle theft, robbery, and assault, using the selector on the right hand side.
-        </p>
       </div>
 
-      <figure class="viz-card iframe-card tall">
-        <iframe
-          src="visualizations/district_before_vs_during_selector.html"
-          title="Interactive district comparison of crime categories before and during COVID"
-          loading="lazy"
-        ></iframe>
-        <figcaption>
-          <strong>Figure 3.</strong> Interactive district comparison of average yearly incidents before COVID
-          (2018-2019) and during COVID (2020-2021). Switching categories shows that the magnitude of change
-          varied across police districts.
-        </figcaption>
-      </figure>
-    </section>
+      <div class="map-meta">
+        <div class="map-legend">
+          <span>
+            <i class="legend-dot" style="background:#3b82f6;"></i>
+            Pedestrian sensors
+          </span>
+          <span>
+            <i class="legend-dot" style="background:#f97316;"></i>
+            Researched venues
+          </span>
+          <span>
+            <i class="legend-dot" style="background:#9ca3af;"></i>
+            Sensor links
+          </span>
+        </div>
 
-    <section class="story-block text-only reveal">
-      <div class="section-tag">Conclusion</div>
-      <h2>The main story is divergence, not one overall trend</h2>
-      <p>
-        The clearest takeaway is <b>not</b> that COVID simply increased or decreased crime in San Francisco.
-        But rather, that the pandemic created a divergence. Burglary and motor vehicle theft rose,
-        assault fell, and burglaries appears to have widened geographically.
+        <a
+          class="fullscreen-link"
+          href="outputs/nightclubbing_story/maps/all_sensors_and_venue_proxy_markers_map.html"
+          target="_blank"
+          rel="noopener"
+        >
+          Open full-screen map
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- ============================================================
+       CHAPTER 01 — The weekend effect
+  ============================================================ -->
+  <section class="section section-alt" id="weekend-effect">
+    <div class="container">
+      <div class="chapter-label">Chapter 01</div>
+      <h2 class="section-heading">Weekends change everything</h2>
+      <div class="prose prose-wide">
+        <p>
+          Across the 11 club-adjacent sensor locations we studied, the contrast between
+          a weekday and a weekend night is stark. On Friday and Saturday nights between
+          22:00 and 02:59, foot traffic near clubs spikes dramatically — in some areas,
+          by a factor of six.
+        </p>
+      </div>
+      <div class="chart-card chart-card-light" data-animate>
+        <div class="chart-card-header chart-card-header-light">
+          <h3>Weekend vs Weekday Late-Night Foot Traffic</h3>
+          <p>Average pedestrians per sensor-hour, 22:00-02:59, with weekend uplift shown at the right</p>
+        </div>
+        <div class="chart-img-wrap">
+          <img
+            src="outputs/nightclubbing_story/charts/weekday_vs_weekend_late_night_club_names.png"
+            alt="Grouped horizontal bar chart comparing weekend and weekday late-night pedestrian averages for each club area, with uplift ratio labels"
+            class="chart-img"
+          >
+        </div>
+      </div>
+      <blockquote class="callout" data-animate>
+        <p>
+          Queen St near Club Moda sees a <strong>6× weekend uplift</strong> — the
+          highest ratio of weekend-to-weekday late-night activity in the entire dataset.
+        </p>
+      </blockquote>
+      <aside class="evidence-note" data-animate>
+        We are not measuring club attendance directly. We are measuring pedestrian
+        activity near nightlife venues, so stations, restaurants, hotels, events,
+        and street layout may also explain some of the signal.
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CHAPTER 02 — Hourly rhythm
+  ============================================================ 
+  <section class="section section-dark" id="hourly-rhythm">
+    <div class="container">
+      <div class="chapter-label">Chapter 02</div>
+      <h2 class="section-heading">The night builds, then the late signal appears</h2>
+      <div class="prose prose-wide">
+        <p>
+          Foot traffic is highest in the early evening, but that does not automatically
+          mean clubbing. The more distinctive nightlife signal appears later, when
+          weekend activity stays elevated while weekday activity fades. Hover over the
+          chart to explore how the night builds from 18:00 through 05:00.
+        </p>
+      </div>
+      <div class="chart-card chart-card-light" data-animate>
+        <div class="chart-card-header chart-card-header-light">
+          <h3>How the Night Builds Near Club Areas</h3>
+          <p>Context animation for 18:00–05:00; the main late-night metric remains 22:00–02:59</p>
+        </div>
+        <div class="iframe-wrap" style="height: 480px;">
+          <iframe
+            src="outputs/nightclubbing_story/html/interactive_hourly_nightlife_rhythm.html"
+            title="Interactive chart: hourly nightlife rhythm"
+            scrolling="no"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+      <div class="stat-inline-row" data-animate>
+        <div class="stat-inline">
+          <div class="stat-inline-num">Saturday</div>
+          <div class="stat-inline-label">Strongest nightlife day of the week</div>
+        </div>
+        <div class="stat-inline">
+          <div class="stat-inline-num">417</div>
+          <div class="stat-inline-label">Avg pedestrians per sensor-hour on Saturdays</div>
+        </div>
+        <div class="stat-inline">
+          <div class="stat-inline-num">18:00</div>
+          <div class="stat-inline-label">Early-evening high point, before the stricter late-night window</div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- ============================================================
+       CHAPTER 03 — Seasonality
+  ============================================================ -->
+  <section class="section section-alt" id="seasonal">
+    <div class="container">
+      <div class="chapter-label">Chapter 03</div>
+      <h2 class="section-heading">Summer is when Melbourne shines</h2>
+      <div class="prose prose-wide">
+        <p>
+          Melbourne's seasons shape its nightlife. We tracked weekend late-night
+          pedestrian activity across two full years and found a clear seasonal signal —
+          Summer consistently leads, though some areas hold their own through Winter.
+          Hover over the lines to compare.
+        </p>
+      </div>
+      <div class="chart-card chart-card-light" data-animate>
+        <div class="chart-card-header chart-card-header-light">
+          <h3>Weekend Late-Night Activity by Season and Year</h3>
+          <p>Average pedestrians per sensor-hour across club-adjacent areas — interactive</p>
+        </div>
+        <div class="iframe-wrap" style="height: 480px;">
+          <iframe
+            src="outputs/nightclubbing_story/html/interactive_seasonal_trends.html"
+            title="Interactive chart: seasonal trends"
+            scrolling="no"
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+      <blockquote class="callout" data-animate>
+        <p>
+          Summer leads with an average of <strong>318 pedestrians per sensor-hour</strong>
+          on weekend late nights — the strongest season for nightlife activity in the dataset.
+        </p>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     THE VERDICT — main finding
+============================================================ -->
+<section class="section section-verdict" id="verdict">
+  <div class="verdict-glow" aria-hidden="true"></div>
+
+  <div class="container verdict-container">
+    <p class="verdict-eyebrow">Melbourne's top nightlife area is</p>
+
+    <h2 class="verdict-title">The Charlton Club</h2>
+
+    <p class="verdict-subtitle">
+      Near <strong>155–161 Russell Street</strong> — it scores highest across every
+      dimension of our analysis.
+    </p>
+
+    <div class="verdict-stats" data-animate>
+      <div class="verdict-stat">
+        <div class="verdict-stat-num">86.4<span class="verdict-stat-unit">/100</span></div>
+        <div class="verdict-stat-name">Nightclubbing score</div>
+        <div class="verdict-stat-desc">
+          Combining weekend pedestrian intensity, club popularity, weekend uplift,
+          review-weighted rating, and the broader hourly profile
+        </div>
+      </div>
+
+      <div class="verdict-stat">
+        <div class="verdict-stat-num">2,455</div>
+        <div class="verdict-stat-name">Nearby club reviews</div>
+        <div class="verdict-stat-desc">
+          The Charlton Club is the most-reviewed venue in the dataset —
+          by a wide margin
+        </div>
+      </div>
+
+      <div class="verdict-stat">
+        <div class="verdict-stat-num">3.1<span class="verdict-stat-unit">×</span></div>
+        <div class="verdict-stat-name">Weekend lift</div>
+        <div class="verdict-stat-desc">
+          Weekend late-night foot traffic here is 3.1 times higher
+          than on weekday nights
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+  <!-- ============================================================
+       TRANSITION — martini glass widening point
+  ============================================================ -->
+  <section class="section section-dark" id="venue-context">
+    <div class="container">
+      <h2 class="section-heading">Some of the other higher scoring venues</h2>
+      <div class="prose prose-wide">
+        <p>
+          The winner cannot only be decided by the numbers. Here are some of the other venues 
+          that also scored highly across our metrics. Nightlife is a vibe, after all — and these 
+          places are each bringing their own unique energy.
+        </p>
+      </div>
+      <div class="club-photo-strip" data-animate>
+        <article class="club-photo-card club-photo-card-large">
+          <img
+            src="https://mirandabar.com.au/wp-content/themes/mirandabar-theme-dark/assets/images/VIK_4295.webp"
+            alt="Mendoza's Social Club dance floor atmosphere"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+          >
+          <div class="club-photo-copy">
+            <span>Flinders Lane</span>
+            <h3>Mendoza's Social Club</h3>
+            <a href="https://mirandabar.com.au/" target="_blank" rel="noopener"></a>
+          </div>
+        </article>
+        <article class="club-photo-card">
+          <img
+            src="https://images.squarespace-cdn.com/content/v1/5d439bf87102a50001ed8b31/1614570891622-8H13OAFTWES6Z6T6U1ZW/SubClub_Promo-30.jpg"
+            alt="Sub Club Melbourne underground club atmosphere"
+            loading="lazy"
+            
+          >
+          <div class="club-photo-copy">
+            <span>Elizabeth street</span>
+            <h3>Sub Club Melbourne</h3>
+            <a href="https://www.subclubmelbourne.com/home" target="_blank" rel="noopener"></a>
+          </div>
+        </article>
+        <article class="club-photo-card">
+          <img
+            src="https://static.wixstatic.com/media/fafea3_2fdad6fe71b14fce81a931c5f015a4b2f000.jpg/v1/fill/w_980%2Ch_551%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/fafea3_2fdad6fe71b14fce81a931c5f015a4b2f000.jpg"
+            alt="Mango Club Melbourne nightlife atmosphere"
+            loading="lazy"
+            
+          >
+          <div class="club-photo-copy">
+            <span>King street</span>
+            <h3>Mango Club</h3>
+            <a href="https://www.mangofridays.com.au/" target="_blank" rel="noopener"></a>
+          </div>
+        </article>
+        <article class="club-photo-card">
+          <img
+            src="https://d1melbourne.com.au/wp-content/uploads/2025/09/CROWD.jpg"
+            alt="District 1 Melbourne club crowd"
+            loading="lazy"
+            referrerpolicy="no-referrer"
+          >
+          <div class="club-photo-copy">
+            <span>Queen Street</span>
+            <h3>District 1</h3>
+            <a href="https://d1melbourne.com.au/about-us/" target="_blank" rel="noopener"></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-transition-strip" id="transition">
+    <div class="container transition-container">
+      <div class="transition-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 36"><path d="M12 2 L12 28 M5 21 L12 30 L19 21"/></svg>
+      </div>
+      <h2 class="transition-heading">Now explore for yourself</h2>
+      <p class="transition-sub">
+        The guided story ends here. Below you'll find the full interactive rankings,
+        a weekend heatmap, seasonal breakdowns by area, and an hour-by-hour
+        animation of Melbourne's nightlife playing out across the city.
       </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       EXPLORE 01 — Full rankings
+  ============================================================ -->
+  <section class="section section-dark" id="rankings">
+    <div class="container">
+      <div class="chapter-label">Explore 01</div>
+      <h2 class="section-heading">All 11 areas, ranked</h2>
+      <div class="prose prose-wide">
+        <p>
+          How does your favourite area stack up? The nightclubbing score combines five
+          signals: weekend late-night pedestrian intensity (45%), nearby club popularity
+          by review count (25%), weekend-vs-weekday lift (15%), review-weighted rating
+          (10%), and an hourly profile signal from the broader 18:00-05:00 night window
+          (5%). Hover any bar for the full breakdown.
+        </p>
+      </div>
+      <div class="score-formula-card" data-animate>
+        <div class="formula-title">How to read the score</div>
+        <div class="formula-row" aria-label="Nightclubbing score formula">
+          <span class="formula-main">Nightclubbing score</span>
+          <span class="formula-equals">=</span>
+          <span class="formula-chip chip-ped">45% weekend late-night foot traffic</span>
+          <span class="formula-plus">+</span>
+          <span class="formula-chip chip-pop">25% review popularity</span>
+          <span class="formula-plus">+</span>
+          <span class="formula-chip chip-uplift">15% weekend uplift</span>
+          <span class="formula-plus">+</span>
+          <span class="formula-chip chip-rating">10% review-weighted rating</span>
+          <span class="formula-plus">+</span>
+          <span class="formula-chip chip-hour">5% hourly profile</span>
+        </div>
+      </div>
+      <div class="chart-card chart-card-dark" data-animate>
+  <div class="chart-card-header chart-card-header-dark">
+    <h3, style=color:black">Nightclubbing Area Rankings</h3>
+    <p>
+      Ranked score out of 100. Hover over the chart to see how each area performs
+      across the scoring components.
+    </p>
+  </div>
+
+  <div class="iframe-wrap ranking-chart-wrap">
+    <iframe
+      src="outputs/nightclubbing_story/charts/nightclubbing_area_rankings.html"
+      title="Interactive nightclubbing area rankings chart"
+      loading="lazy"
+      scrolling="no"
+    ></iframe>
+  </div>
+
+  <div class="map-meta">
+    <a
+      class="fullscreen-link"
+      href="outputs/nightclubbing_story/charts/nightclubbing_area_rankings.html"
+      target="_blank"
+      rel="noopener"
+    >
+      Open full-screen chart
+    </a>
+  </div>
+</div>
+      <h2 class="section-heading">From popularity to performance</h2>
+
+    <div class="prose prose-wide">
       <p>
-        This makes the COVID period look less like one clean trend line and more like a reshaping of the general 
-        recorded crime footprint. That is a more careful and more honest conclusion than just treating all categories the same.
+        Before ranking Melbourne’s nightlife areas, we first checked whether online
+        popularity matches real street activity. A venue might have strong reviews,
+        but that does not automatically mean the surrounding area is busy late at night.
       </p>
-    </section>
 
+      <p>
+        The chart below compares nearby club review volume with weekend late-night
+        pedestrian activity. Areas that sit higher and further to the right combine
+        both signals: strong venue popularity and high levels of real foot traffic.
+      </p>
+    </div>
+      <div class="chart-card chart-card-dark" data-animate>
+        <div class="chart-card-header chart-card-header-dark">
+          <h3>Reviews vs Weekend Foot Traffic</h3>
+          <p>This is a sanity check on the score: review popularity and street activity overlap, but the exceptions explain why both signals matter.</p>
+        </div>
+        <div class="chart-img-wrap">
+          <img
+            src="outputs/nightclubbing_story/charts/club_popularity_vs_weekend_late_pedestrians_club_names.png"
+            alt="Scatter chart showing club review count on the x-axis and weekend late-night pedestrian average on the y-axis"
+            class="chart-img"
+          >
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ============================================================
+       EXPLORE 04 — Animated hourly map
+  ============================================================ -->
+  <section class="section section-dark" id="animated">
+    <div class="container">
+      <div class="chapter-label">Explore 04</div>
+      <h2 class="section-heading">Watch the night unfold</h2>
+      <div class="prose prose-wide">
+        <p>
+          Press play to watch pedestrian activity shift across Melbourne's club areas
+          from early evening through to the small hours of the morning. The animation
+          shows how street-level energy builds and fades through a typical weekend night.
+          You can also scrub the timeline manually.
+        </p>
+      </div>
+      <div class="chart-card " data-animate>
+        <div class="chart-card-header ">
+          <h3>Hour-by-Hour Weekend Night Build</h3>
+          <p>Use the timeline controls to play or scrub from 18:00 through to 05:00</p>
+        </div>
+        <div class="iframe-wrap" style="height: 580px;">
+          <iframe
+            src="outputs/nightclubbing_story/charts/animated_nightlife_custom.html"
+            title="Animated hour-by-hour weekend nightlife heatmap"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="map-meta">
+          <a class="fullscreen-link" href="outputs/nightclubbing_story/charts/animated_nightlife_custom.html" target="_blank" rel="noopener">Open full-screen map</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
   <footer class="site-footer">
-    <p>Created by Jacob Kildegaard Hansen, Nicklas Thorvald Kiær and Oliver Brandt-Olsen</p>
+    <div class="container">
+      <p>
+        Melbourne After Dark · Social Data Analysis &amp; Visualization ·
+        Data: City of Melbourne Open Data ·
+        <a href="notebooks/explainer_notebook.ipynb" target="_blank" rel="noopener">Explainer notebook</a>
+      </p>
+    </div>
   </footer>
 
-  <!-- Make sections visible when they come into view -->
-  <script>
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, { threshold: 0.16 });
-
-    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
